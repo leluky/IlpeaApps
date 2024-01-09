@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+    <h1>Metros por Hora</h1>
+
+    <p>Cantidad de tiras</p>
+
+    <input type="number" id="tiras">
+    
+    <p>Medida del burlete</p>
+
+    <input type="number" id="medida">
+
+    <p>Tiempo cronometrado</p>
+    <input type="number" id="tiempo">
+
+    <br>
+    <br>
+    <br>
+    <p id="resulta"></p>
+     
+    <button onclick="Resultado()">RESULTADO</button>
+    </div>
+
+<script >
+
+    function Resultado(){
+  let cantidad, medida, tiempo, tt, lafuncion, result;
+
+  cantidad = document.getElementById("tiras").value;
+  medida = document.getElementById("medida").value;
+  tiempo = document.getElementById("tiempo").value;
+  tt=60;
+
+
+lafuncion = (((parseFloat(cantidad) * parseFloat(medida)) / parseFloat(tiempo))* parseFloat(tt))* parseFloat(tt);
+result = lafuncion;
+
+document.getElementById("resulta").innerHTML = result;
+
+
+}
+
+
+</script>
+
+<style>
+
+    body{
+        background-color: gray;
+    }
+
+    h1{
+        text-align: center;
+        font-family:Verdana, Geneva, Tahoma, sans-serif ;
+
+    }
+
+    p{
+        text-align: center;
+        font-size: 18px ;
+        font-family:Verdana, Geneva, Tahoma, sans-serif ;
+        }
+
+  div{
+  text-align: center;
+  size-adjust: 50;
+  }
+
+
+</style>
+
+
+
+</body>
+</html>
