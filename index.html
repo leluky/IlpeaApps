@@ -2,33 +2,125 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Ilpea App</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 </head>
 <body>
-    <div>
-    <h1>Metros por Hora</h1>
 
-    <p>Cantidad de tiras</p>
-
-    <input type="number" id="tiras">
-    
-    <p>Medida del burlete</p>
-
-    <input type="number" id="medida">
-
-    <p>Tiempo cronometrado</p>
-    <input type="number" id="tiempo">
-
-    <br>
-    <br>
-    <br>
-    <p id="resulta"></p>
-     
-    <button onclick="Resultado()">RESULTADO</button>
+    <h2>Cronometro</h2>
+    <div class="c-body">
+        <div class="c-time">
+            <div class="screen">
+                <span id="time">00:00:00.00</span>
+            </div>  
+            <div class="c-btn">               
+               <button id="btn-start">&#x23F5;</button>                          
+               <button id="btn-stop">&#x23F8;</button>                             
+               <button id="btn-reset">&#x1F501;</button>                                     
+            </div>          
+        </div>        
     </div>
 
-<script >
+
+
+
+
+    <div>
+    <br>
+
+
+
+
+    <h2>Metros por Hora</h1>
+    <br>
+  
+    <form>
+
+   <div><label>Cantidad de tiras <br> <input type="number" id="tiras"></div>
+   <div><label>Medida del Burlete <br><input type="number" id="medida"></div>
+   <div><label>Tiempo cronometrado <br><input type="number" id="tiempo"></div>
+
+</form>
+    <br>
+    <br>
+    
+        
+    <input type="button" onclick="Resultado()" value="Resultado">
+    
+<br>
+<br>
+    
+    <div id="resulta"></div>
+
+<script>
+
+//Funcion Choreada de Cronometro
+
+window.onload = () => {
+   h = 0;
+   m = 0;
+   s = 0;
+   mls = 0;
+   timeStarted = 0;
+   time = document.getElementById("time");
+   btnStart = document.getElementById("btn-start");
+   btnStop = document.getElementById("btn-stop");
+   btnReset = document.getElementById("btn-reset");
+   btnStart.addEventListener("click", start);
+   btnStop.addEventListener("click", stop);
+   btnReset.addEventListener("click", reset);
+};
+
+function write() {
+   let ht, mt, st, mlst;
+   mls++;
+
+   if (mls > 99) {
+      s++;
+      mls = 0;
+   }
+   if (s > 59) {
+      m++;
+      s = 0;
+   }
+   if (m > 59) {
+      h++;
+      m = 0;
+   }
+   if (h > 24) h = 0;
+
+   mlst = ('0' + mls).slice(-2);
+   st = ('0' + s).slice(-2);
+   mt = ('0' + m).slice(-2);
+   ht = ('0' + h).slice(-2);
+
+   time.innerHTML = `${ht}:${mt}:${st}.${mlst}`;
+}
+
+function start() {
+   write();
+   timeStarted = setInterval(write, 10);
+   btnStart.removeEventListener("click", start);
+}
+
+function stop() {
+   clearInterval(timeStarted);
+   btnStart.addEventListener("click", start);
+}
+
+function reset() {
+   clearInterval(timeStarted);
+   time.innerHTML = "00:00:00.00"
+   h = 0;
+   m = 0;
+   s = 0;
+   mls = 0;
+   btnStart.addEventListener("click", start);
+}
+
+//Funcion de Metros por Hora
+
 
     function Resultado(){
   let cantidad, medida, tiempo, tt, lafuncion, result;
@@ -42,8 +134,7 @@
 lafuncion = (((parseFloat(cantidad) * parseFloat(medida)) / parseFloat(tiempo))* parseFloat(tt))* parseFloat(tt);
 result = lafuncion;
 
-document.getElementById("resulta").innerHTML = result;
-
+document.getElementById("resulta").innerHTML = result.toFixed(0);
 
 }
 
@@ -52,17 +143,46 @@ document.getElementById("resulta").innerHTML = result;
 
 <style>
 
+.c-body{
+    background: var(--background);
+    background: linear-gradient(135deg, var(--background-linear1) 0%, var(--background-linear2) 70%);
+    width: 100%;
+    height: 25%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.c-time>.screen{
+    font-size: 40px;
+    color: var(--text-color);
+    background-color: var(--screen);
+    margin: 6px;
+    text-align: center;
+}
+
+.c-btn{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 70px;    
+    margin: 20px 100px;
+}
+
+
+
+
     body{
         background-color: gray;
     }
 
-    h1{
+    h2{
+        background-color: blanchedalmond ;
         text-align: center;
         font-family:Verdana, Geneva, Tahoma, sans-serif ;
 
     }
 
-    p{
+    form{
         text-align: center;
         font-size: 18px ;
         font-family:Verdana, Geneva, Tahoma, sans-serif ;
@@ -72,6 +192,10 @@ document.getElementById("resulta").innerHTML = result;
   text-align: center;
   size-adjust: 50;
   }
+
+  
+
+  
 
 
 </style>
